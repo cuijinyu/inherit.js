@@ -1,0 +1,14 @@
+{
+  "name": "inherit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "inherit.js",
+  "typings": "./inherit.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run tsc && node inherit.js",
+    "tsc": "tsc -d inherit.ts"
+  },
+  "author": "fishcui",
+  "license": "MIT"
+}
