@@ -76,9 +76,9 @@ var Inherit = {
         for (var _i = 1; _i < arguments.length; _i++) {
             inheritObj[_i - 1] = arguments[_i];
         }
-        var tempObj;
+        var tempObj = originObj;
         inheritObj.forEach(function (element) {
-            tempObj = Inherit.composeParaInherit(originObj, element);
+            tempObj = Inherit.composeParaInherit(tempObj, element);
         });
         return tempObj;
     }
@@ -87,14 +87,3 @@ var Inherit = {
 module.exports = Inherit;
 // 兼容ES6 Module
 exports["default"] = Inherit;
-function Parent() {
-    var _this = this;
-    this.say = function () {
-        console.log(_this.name);
-    };
-}
-function Child(name) {
-    this.name = name;
-}
-var child = Inherit.inherit(Child, Parent);
-console.log(new child('haha').__proto__);

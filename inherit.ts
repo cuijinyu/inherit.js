@@ -75,9 +75,9 @@ const Inherit: InheritType = {
    * @param inheritObj 
    */
   inherit: function (originObj, ...inheritObj) {
-    let tempObj;
+    let tempObj = originObj;
     inheritObj.forEach(element => {
-      tempObj = Inherit.composeParaInherit(originObj, element);
+      tempObj = Inherit.composeParaInherit(tempObj, element);
     });
     return tempObj as any;
   }
