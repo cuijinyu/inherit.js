@@ -4,6 +4,7 @@ declare type InheritType = {
     callInherit: InheritParam;
     composeInherit: InheritParam;
     composeParaInherit: InheritParam;
+    inherit: (originObj: new (...args: any) => any, ...inheritObjs: any) => any;
 };
 declare const Inherit: InheritType;
 export default Inherit;
