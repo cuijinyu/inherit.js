@@ -1,4 +1,4 @@
-declare type InheritParam = <Sub = {}, Super = {}>(originObj: new (...args: any) => any, protoObj: new (...args: any) => any) => new (...args: any[]) => {} & Sub & Super;
+declare type InheritParam = <Sub = {}, Super = {}, Params = {}>(originObj: new (...args: any) => any, protoObj: new (...args: any) => any) => new (...args: Params[keyof Params][]) => {} & Sub & Super;
 declare type InheritType = {
     protoInherit: InheritParam;
     callInherit: InheritParam;

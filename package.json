@@ -10,5 +10,8 @@
     "tsc": "tsc -d inherit.ts"
   },
   "author": "fishcui",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.7.2"
+  }
 }

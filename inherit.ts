@@ -1,11 +1,13 @@
-type InheritParam = <Sub = {}, Super = {}>(originObj: new (...args: any) => any, protoObj: new (...args: any) => any) => new (...args) => {} & Sub & Super
+const util = require('util');
+type InheritParam = <Sub = {}, Super = {}, Params = {}>(originObj: new (...args: any) => any, protoObj: new (...args: any) => any) => new (...args:any[]) => {} & Sub & Super
+type MultiInheritParam = <Sub = {}, Super = {}, Params = []>(originObj: new (...args: any) => any, ...inheritObj: any[]) => any
 
 type InheritType = {
   protoInherit: InheritParam,
   callInherit: InheritParam,
   composeInherit: InheritParam,
   composeParaInherit: InheritParam,
-  inherit: (originObj: new (...args: any) => any, ...inheritObjs: any) => any
+  inherit: MultiInheritParam
 }
 
 declare var module;
@@ -45,7 +47,7 @@ const Inherit: InheritType = {
       originObj.apply(this, args);
     }
     wrap.prototype = new protoObj();
-    wrap.constructor = wrap;
+    wrap.prototype.constructor = originObj;
     return wrap as any;
   },
 
@@ -57,12 +59,13 @@ const Inherit: InheritType = {
   composeParaInherit: function (originObj, protoObj) {
     let protoTempObj = function () {};
     protoTempObj.prototype = protoObj.prototype;
+    protoTempObj.prototype.constructor = protoTempObj;
     let wrap = function (...args) {
       protoObj.apply(this, args);
       originObj.apply(this, args);
     }
-    protoTempObj.constructor = wrap;
     wrap.prototype = new protoTempObj();
+    wrap.prototype.constructor = wrap;
     return wrap as any;
   },
 

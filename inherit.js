@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+var util = require('util');
 var Inherit = {
     /**
      * 原型继承
@@ -41,7 +42,7 @@ var Inherit = {
             originObj.apply(this, args);
         };
         wrap.prototype = new protoObj();
-        wrap.constructor = wrap;
+        wrap.prototype.constructor = originObj;
         return wrap;
     },
     /**
@@ -52,6 +53,7 @@ var Inherit = {
     composeParaInherit: function (originObj, protoObj) {
         var protoTempObj = function () { };
         protoTempObj.prototype = protoObj.prototype;
+        protoTempObj.prototype.constructor = protoTempObj;
         var wrap = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -60,8 +62,8 @@ var Inherit = {
             protoObj.apply(this, args);
             originObj.apply(this, args);
         };
-        protoTempObj.constructor = wrap;
         wrap.prototype = new protoTempObj();
+        wrap.prototype.constructor = wrap;
         return wrap;
     },
     /**
@@ -85,18 +87,14 @@ var Inherit = {
 module.exports = Inherit;
 // 兼容ES6 Module
 exports["default"] = Inherit;
-function Parent(name) {
+function Parent() {
+    var _this = this;
+    this.say = function () {
+        console.log(_this.name);
+    };
+}
+function Child(name) {
     this.name = name;
-    this.sayName = function () {
-        console.log(this.name);
-    };
 }
-function Parent2(name) {
-    this.name2 = name;
-    this.sayName2 = function () {
-        console.log(this.name2);
-    };
-}
-function children() { }
-var Children = Inherit.inherit(children, Parent, Parent2);
-new Children('wanghaha', 'word').sayName2();
+var child = Inherit.inherit(Child, Parent);
+console.log(new child('haha').__proto__);
